@@ -40,6 +40,7 @@ public class octubre27 {
             System.out.printf("%c, ",cinta[j]);
          }
          System.out.printf("]\n");
+        cinta();
         MatrizA(cinta);
         MatrizB(cinta);
         MatrizC(cinta);
@@ -145,5 +146,47 @@ public class octubre27 {
         }
         System.out.printf("\n");
     }
+    public static void cinta(){
+    int counter1=0, counter2=0;
+        int cinta[]= new int[8];
+        int valorescinta;
+
+		for(int i = 0; i <8; i++) {
+            valorescinta=cintaRandom(); //asignamos un valor random 0 o 1
+
+            if(valorescinta==0){ //si es cero entra
+                if(counter1<=3){ //si aun no tenemos 4 0's, lo escribimos y aumentamos 1 el contador
+                    cinta[i]=valorescinta;
+                    counter1=counter1+1;
+                }
+                else if(counter1>3){ //si ya tenemos 4 0's, solo queda que existan 1
+                    cinta[i]=1;      // se escribe 1, ya que es la unica opcion
+                    counter2=counter2+1; //se aumenta el contador del 1
+                }
+            }
+            else if(valorescinta==1){ // si es 1 entra
+                if(counter2<=3){ // si aun no tenemos 4 0's, lo escribirmos y aumenta el contador
+                    cinta[i]=valorescinta;
+                    counter2=counter2+1;
+                }
+                else if(counter2>3){ //si 1 aparece 4 veces, entonces solo queda que las opciones sean 0
+                    cinta[i]=0;       //se escribe el 0 como unica opcion
+                    counter1=counter1+1;    //se aumenta en 1 el contador de 0
+                }
+                }
+            }
+        
+        
+        for(int i = 0; i <8; i++) {
+			System.out.println(cinta[i]);
+        }
+}
+    public static int cintaRandom(){
+        int min = 0;
+		int max = 2;
+
+        int getRandomValue = (int) (Math.random()*(max-min)) + min;
+        return(getRandomValue);
+}
 
 }
