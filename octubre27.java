@@ -5,6 +5,8 @@ public class octubre27 {
         int contador=0;
         char aleatoriedad;
         char cinta[]= new char[36];
+        char MatA[][];
+        int cintaT[];
 
         System.out.printf("[");
         for (int i = 0; i < 36; i++) { 
@@ -40,11 +42,15 @@ public class octubre27 {
             System.out.printf("%c, ",cinta[j]);
          }
          System.out.printf("]\n");
-        cinta();
-        MatrizA(cinta);
-        MatrizB(cinta);
-        MatrizC(cinta);
-        MatrizD(cinta);
+        // cinta();
+        // MatrizA(cinta);
+        // MatrizB(cinta);
+        // MatrizC(cinta);
+        // MatrizD(cinta);
+
+        MatA=MatrizA(cinta);
+        cintaT=cinta();
+        RecorridoMatx(MatA, cintaT, cinta,0);
     }
     public static char Aleatoriedad() {
         Random random = new Random();
@@ -54,7 +60,7 @@ public class octubre27 {
         return(randomChar);
     }
     //creando la matriz A y mostrandola
-    public static void MatrizA(char cinta[]){
+    public static char[][] MatrizA(char cinta[]){
         char matA[][] = new char[3][3];
 
         for(int i=0; i<3; i++){
@@ -76,8 +82,10 @@ public class octubre27 {
          System.out.printf("\n");
         }
         System.out.printf("\n");
+
+        return(matA);
     }
-    public static void MatrizB(char cinta[]){
+    public static char[][] MatrizB(char cinta[]){
         char matA[][] = new char[3][3];
 
         for(int i=0; i<3; i++){
@@ -99,8 +107,10 @@ public class octubre27 {
          System.out.printf("\n");
         }
         System.out.printf("\n");
+
+        return(matA);
     }
-    public static void MatrizC(char cinta[]){
+    public static char[][] MatrizC(char cinta[]){
         char matA[][] = new char[3][3];
 
         for(int i=0; i<3; i++){
@@ -122,8 +132,10 @@ public class octubre27 {
          System.out.printf("\n");
         }
         System.out.printf("\n");
+
+        return(matA);
     }
-    public static void MatrizD(char cinta[]){
+    public static char[][] MatrizD(char cinta[]){
         char matA[][] = new char[3][3];
 
         for(int i=0; i<3; i++){
@@ -145,8 +157,10 @@ public class octubre27 {
          System.out.printf("\n");
         }
         System.out.printf("\n");
+
+        return(matA);
     }
-    public static void cinta(){
+    public static int[] cinta(){
     int counter1=0, counter2=0;
         int cinta[]= new int[8];
         int valorescinta;
@@ -180,6 +194,7 @@ public class octubre27 {
         for(int i = 0; i <8; i++) {
 			System.out.println(cinta[i]);
         }
+        return(cinta);
 }
     public static int cintaRandom(){
         int min = 0;
@@ -188,5 +203,73 @@ public class octubre27 {
         int getRandomValue = (int) (Math.random()*(max-min)) + min;
         return(getRandomValue);
 }
+    public static char[][] RecorridoSimple(char MatrizG[][]){
+        int i,j;
+        char MatrizU[][]=new char[3][3];
 
+        for(i=0; i<3; i++){
+            for(j=0; j<3; j++){
+                MatrizU[i][j]=MatrizG[i][j];
+            }
+        }
+        return(MatrizU);
+
+    }
+    public static int[] RecorridoMatx(char MatG[][], int cinta[], char[] valMatx, int posicionVector){
+        char MatB[][]=MatrizB(valMatx);
+        char MatC[][]=MatrizC(valMatx);
+        char MatD[][]= MatrizD(valMatx);
+        char[][] matrizActual=RecorridoSimple(MatG);
+        int cintaNueva[]=cinta;
+        int actual_cinta=posicionVector;
+
+        for(int i=0; i<3; i++){
+            for(int j=0; j<3; j++){
+                if(matrizActual[i][j]== '1'){
+                    if(cintaNueva[actual_cinta]==0){
+                        cintaNueva[actual_cinta]=1;
+                        System.out.println("nueva cinta "+cintaNueva[actual_cinta]);
+                    }
+                    else{
+                        cinta[actual_cinta]=0;
+                        System.out.println("nueva cinta "+cintaNueva[actual_cinta]);
+                    }
+                }
+                else if(matrizActual[i][j]== 'R'){
+                    if(actual_cinta<7){
+                        actual_cinta=actual_cinta+1; //si aun no se ha llegado al final, aumenta en 1
+                        System.out.println("nueva cinta "+cintaNueva[actual_cinta]);
+                    }
+                    else if(actual_cinta==7){
+                        actual_cinta=0; //si estamos al final de la cinta, regresa al inicio
+                        System.out.println("nueva cinta "+cintaNueva[actual_cinta]);
+                    }
+                }
+                else if(matrizActual[i][j]== 'L'){
+                    if(actual_cinta>0 && actual_cinta<cintaNueva.length){
+                        actual_cinta=actual_cinta-1; //si se encuentra en la posion 1 o mayor
+                        System.out.println("nueva cinta "+cintaNueva[actual_cinta]);
+                    }
+                    else if(actual_cinta==0){
+                        actual_cinta=7; //si se encuentra en la posicion 0
+                        System.out.println("nueva cinta "+cintaNueva[actual_cinta]);
+                    }
+                }
+                else if(matrizActual[i][j]== 'F'){
+                    System.out.println("Fin del juego\n");
+                }
+                else if(matrizActual[i][j]== 'B'){
+                    RecorridoMatx(MatB, cintaNueva, valMatx, actual_cinta);
+                }
+                else if(matrizActual[i][j]== 'C'){
+                    RecorridoMatx(MatC, cintaNueva, valMatx, actual_cinta);
+                }
+                else if(matrizActual[i][j]== 'D'){
+                    RecorridoMatx(MatD, cintaNueva, valMatx, actual_cinta);
+                }
+            }
+        }
+        return(cintaNueva);
+    } 
 }
+
